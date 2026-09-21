@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PocketPilot Engine Test</title>
+</head>
+<body>
+    <h1>PocketPilot Engine Test</h1>
+
+    <p id="status">Loading engine...</p>
+
+    <script src="js/PocketPilot_Engine.js"></script>
+
+    <script>
+        if (window.PocketPilotEngine) {
+            document.getElementById("status").textContent =
+                "Engine loaded successfully! Running tests...";
+
+            console.log("PocketPilotEngine loaded:", window.PocketPilotEngine);
+
+            const result = window.PocketPilotEngine.runTests();
+
+            console.log("TEST RESULT:", result);
+
+            document.getElementById("status").textContent =
+                "Engine loaded successfully! Check the Console for test results.";
+        } else {
+            document.getElementById("status").textContent =
+                "ERROR: PocketPilot Engine did not load.";
+
+            console.error("PocketPilotEngine is not defined.");
+        }
+    </script>
+</body>
+</html>

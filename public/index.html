@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PocketPilot — Adaptive Spending Companion</title>
+  <meta name="description" content="PocketPilot tells you what you can still afford, and adjusts the moment that changes." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">
+          <img class="brand-logo" src="logo.png" alt="" width="237" height="241" />
+        </span>
+        <span class="brand-name">PocketPilot</span>
+      </a>
+      <div class="header-right">
+        <nav class="header-nav" aria-label="Primary">
+        <a class="header-link" href="setup.html"><span class="link-text-full">Setup</span></a>
+      </nav>
+
+      <details class="profile-menu">
+        <summary class="profile-trigger" title="Your profile">
+          <span class="profile-avatar" aria-hidden="true">BJ</span>
+          <svg class="profile-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+          <span class="visually-hidden">Open profile menu</span>
+        </summary>
+        <div class="profile-dropdown">
+          <div class="profile-dropdown-head">
+            <span class="profile-avatar profile-avatar-lg" aria-hidden="true">BJ</span>
+            <div class="profile-dropdown-identity">
+              <div class="profile-dropdown-name">Your account</div>
+              <div class="profile-dropdown-meta">Signed in to PocketPilot</div>
+            </div>
+          </div>
+          <a class="profile-dropdown-item" href="setup.html">Edit budget</a>
+          <a class="profile-dropdown-item" href="payment.html">Log a payment</a>
+          <a class="profile-dropdown-item" href="chat.html">Chat</a>
+          <div class="profile-dropdown-divider"></div>
+          <a class="profile-dropdown-item is-signout" href="login.html">Sign out</a>
+        </div>
+      </details>
+      </div>
+    </header>
+
+    <main class="app-main wide" style="max-width: 560px;">
+      <section class="landing-hero">
+        <div class="hero-brand">
+          <img class="hero-logo" src="logo.png" alt="PocketPilot" width="540" height="430" />
+        </div>
+        <h1 class="landing-headline">What can you still afford today?</h1>
+        <div class="landing-figure" aria-hidden="true">
+          ₹187<span class="landing-figure-unit">/ day left to spend</span>
+        </div>
+        <p class="landing-sub">
+          Every budgeting app tells you what you already spent. PocketPilot tells you
+          what you can still afford — and adjusts the moment that changes.
+        </p>
+        <div class="landing-cta">
+          <a class="btn btn-primary" href="setup.html">Start PocketPilot</a>
+          <a class="btn btn-secondary" href="chat.html">See the chat</a>
+        </div>
+      </section>
+
+      <section class="feature-strip" aria-label="How it works">
+        <div class="feature-row">
+          <span class="feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v0"/></svg>
+          </span>
+          <div>
+            <div class="feature-title">Set your budget once</div>
+            <div class="feature-desc">Tell PocketPilot what you have, what\u2019s already spoken for, and how many days it needs to last.</div>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v18l-3-2-3 2-3-2-3 2-3-2-1 2Z"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+          </span>
+          <div>
+            <div class="feature-title">Log payments as they happen</div>
+            <div class="feature-desc">Paste a payment confirmation and watch your daily allowance update instantly.</div>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          <div>
+            <div class="feature-title">Ask before you spend</div>
+            <div class="feature-desc">Check in with PocketPilot before a purchase to see how it affects the days ahead.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

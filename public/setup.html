@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Set up your budget — PocketPilot</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">
+          <img class="brand-logo" src="logo.png" alt="" width="237" height="241" />
+        </span>
+        <span class="brand-name">PocketPilot</span>
+      </a>
+      <div class="header-right">
+        <nav class="header-nav" aria-label="Primary">
+        <a class="header-link is-active" href="setup.html"><span class="link-text-full">Setup</span></a>
+        <a class="header-link" href="payment.html"><span class="link-text-full">Payments</span></a>
+        <a class="header-link" href="chat.html"><span class="link-text-full">Chat</span></a>
+      </nav>
+
+      <details class="profile-menu">
+        <summary class="profile-trigger" title="Your profile">
+          <span class="profile-avatar" aria-hidden="true">BJ</span>
+          <svg class="profile-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+          <span class="visually-hidden">Open profile menu</span>
+        </summary>
+        <div class="profile-dropdown">
+          <div class="profile-dropdown-head">
+            <span class="profile-avatar profile-avatar-lg" aria-hidden="true">BJ</span>
+            <div class="profile-dropdown-identity">
+              <div class="profile-dropdown-name">Your account</div>
+              <div class="profile-dropdown-meta">Signed in to PocketPilot</div>
+            </div>
+          </div>
+          <a class="profile-dropdown-item" href="setup.html">Edit budget</a>
+          <a class="profile-dropdown-item" href="payment.html">Log a payment</a>
+          <a class="profile-dropdown-item" href="chat.html">Chat</a>
+          <div class="profile-dropdown-divider"></div>
+          <a class="profile-dropdown-item is-signout" href="login.html">Sign out</a>
+        </div>
+      </details>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <p class="page-eyebrow">Setup</p>
+      <h1 class="page-title">Tell PocketPilot what you\u2019re working with</h1>
+      <p class="page-lede">
+        We\u2019ll turn this into a daily spending allowance — the amount you can
+        comfortably spend today without borrowing from tomorrow.
+      </p>
+
+      <form class="card" id="setup-form" novalidate>
+        <div class="field">
+          <label class="field-label" for="total-amount">
+            Available amount
+            <span class="field-hint">Total money you have</span>
+          </label>
+          <div class="input-wrap">
+            <span class="input-currency" aria-hidden="true">₹</span>
+            <input
+              class="text-input has-currency"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="0.01"
+              id="total-amount"
+              name="totalAmount"
+              placeholder="Enter total money available"
+              aria-describedby="total-amount-error"
+              required
+            />
+          </div>
+          <p class="field-error" id="total-amount-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="fixed-expenses">
+            Fixed costs
+            <span class="field-hint">Optional · defaults to ₹0</span>
+          </label>
+          <div class="input-wrap">
+            <span class="input-currency" aria-hidden="true">₹</span>
+            <input
+              class="text-input has-currency"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="0.01"
+              id="fixed-expenses"
+              name="fixedExpenses"
+              placeholder="Enter fixed expenses"
+              aria-describedby="fixed-expenses-error fixed-expenses-help"
+            />
+          </div>
+          <p class="field-help" id="fixed-expenses-help">Rent, subscriptions, anything already spoken for.</p>
+          <p class="field-error" id="fixed-expenses-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="total-days">
+            Number of days
+            <span class="field-hint">How long this should last</span>
+          </label>
+          <input
+            class="text-input"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            step="1"
+            id="total-days"
+            name="totalDays"
+            placeholder="How many days should this money last?"
+            aria-describedby="total-days-error"
+            required
+          />
+          <p class="field-error" id="total-days-error" role="alert"></p>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Calculate my allowance</button>
+
+        <div class="result-panel" id="setup-result" aria-live="polite">
+          <p class="field-help" style="margin-bottom: 4px;">Your daily allowance</p>
+          <div class="allowance-figure">
+            <span id="result-daily-allowance">₹0</span><span class="allowance-unit">/ day</span>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-item">
+              <div class="summary-item-label">Flexible money</div>
+              <div class="summary-item-value" id="result-flexible-money">₹0</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-item-label">Days covered</div>
+              <div class="summary-item-value" id="result-total-days">0 days</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-item-label">Fixed costs</div>
+              <div class="summary-item-value" id="result-fixed-expenses">₹0</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-item-label">Status</div>
+              <div class="summary-item-value" style="color: var(--color-primary-dark);">Ready</div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <a class="btn btn-primary" href="payment.html">Start PocketPilot</a>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="js/PocketPilot_Engine.js"></script>
+  <script type="module" src="js/script.js"></script>
+</body>
+</html>

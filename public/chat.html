@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Chat — PocketPilot</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">
+          <img class="brand-logo" src="logo.png" alt="" width="237" height="241" />
+        </span>
+        <span class="brand-name">PocketPilot</span>
+      </a>
+      <div class="header-right">
+        <nav class="header-nav" aria-label="Primary">
+        <a class="header-link" href="setup.html"><span class="link-text-full">Setup</span></a>
+        <a class="header-link" href="payment.html"><span class="link-text-full">Payments</span></a>
+        <a class="header-link is-active" href="chat.html"><span class="link-text-full">Chat</span></a>
+      </nav>
+
+      <details class="profile-menu">
+        <summary class="profile-trigger" title="Your profile">
+          <span class="profile-avatar" aria-hidden="true">BJ</span>
+          <svg class="profile-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+          <span class="visually-hidden">Open profile menu</span>
+        </summary>
+        <div class="profile-dropdown">
+          <div class="profile-dropdown-head">
+            <span class="profile-avatar profile-avatar-lg" aria-hidden="true">BJ</span>
+            <div class="profile-dropdown-identity">
+              <div class="profile-dropdown-name">Your account</div>
+              <div class="profile-dropdown-meta">Signed in to PocketPilot</div>
+            </div>
+          </div>
+          <a class="profile-dropdown-item" href="setup.html">Edit budget</a>
+          <a class="profile-dropdown-item" href="payment.html">Log a payment</a>
+          <a class="profile-dropdown-item" href="chat.html">Chat</a>
+          <div class="profile-dropdown-divider"></div>
+          <a class="profile-dropdown-item is-signout" href="login.html">Sign out</a>
+        </div>
+      </details>
+      </div>
+    </header>
+
+    <div class="chat-shell">
+      <div class="chat-topbar">
+        <div class="chat-avatar" aria-hidden="true">PP</div>
+        <div>
+          <div class="chat-identity-name">PocketPilot</div>
+          <div class="chat-identity-status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="chat-allowance-note">Current allowance: ₹0/day</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages" aria-live="polite">
+        <div class="chat-empty" id="chat-empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <p>Ask PocketPilot whether you can afford something — try "Can I get dinner tonight for ₹400?"</p>
+        </div>
+      </div>
+
+      <form class="chat-composer" id="chat-form">
+        <label class="visually-hidden" for="chat-input">Message PocketPilot</label>
+        <input
+          class="chat-input"
+          type="text"
+          id="chat-input"
+          name="chatInput"
+          placeholder="Ask if you can afford something…"
+          autocomplete="off"
+        />
+        <button class="chat-send" type="submit" aria-label="Send message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2 11 13" /><path d="M22 2 15 22l-4-9-9-4 20-7Z" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="chat-footer-nav">
+        <a class="btn btn-secondary" href="payment.html">Log payment</a>
+        <a class="btn btn-secondary" href="index.html">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/PocketPilot_Engine.js"></script>
+  <script type="module" src="js/script.js"></script>
+</body>
+</html>

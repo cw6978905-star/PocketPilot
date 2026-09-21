@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sign in — PocketPilot</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="login-shell">
+    <div class="login-panel">
+      <a class="login-brand" href="index.html">
+        <img class="login-logo" src="logo.png" alt="PocketPilot" width="540" height="430" />
+      </a>
+
+      <h1 class="login-title">Welcome back</h1>
+      <p class="login-sub">Pick up where your allowance left off.</p>
+
+      <!-- Firebase authentication is handled by script.js. -->
+      <form class="card" action="setup.html" method="get">
+        <div class="field">
+          <label class="field-label" for="login-email">Email</label>
+          <input
+            class="text-input"
+            type="email"
+            id="login-email"
+            autocomplete="username"
+            placeholder="you@college.edu"
+          />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="login-password">
+            Password
+            <span class="field-hint">At least 8 characters</span>
+          </label>
+          <input
+            class="text-input"
+            type="password"
+            id="login-password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+      <p class="login-footnote">
+        New here? <a href="#login-email">Create your account above</a>
+      </p>
+    </div>
+  </div>
+  <script>
+    console.log("🔥 LOGIN HTML REACHED SCRIPT AREA");
+  </script>
+  <script src="js/PocketPilot_Engine.js"></script>
+  <script type="module" src="js/script.js"></script>
+</body>
+</html

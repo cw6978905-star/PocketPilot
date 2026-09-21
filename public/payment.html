@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Log a payment — PocketPilot</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">
+          <img class="brand-logo" src="logo.png" alt="" width="237" height="241" />
+        </span>
+        <span class="brand-name">PocketPilot</span>
+      </a>
+      <div class="header-right">
+        <nav class="header-nav" aria-label="Primary">
+        <a class="header-link" href="setup.html"><span class="link-text-full">Setup</span></a>
+        <a class="header-link is-active" href="payment.html"><span class="link-text-full">Payments</span></a>
+        <a class="header-link" href="chat.html"><span class="link-text-full">Chat</span></a>
+      </nav>
+
+      <details class="profile-menu">
+        <summary class="profile-trigger" title="Your profile">
+          <span class="profile-avatar" aria-hidden="true">BJ</span>
+          <svg class="profile-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+          <span class="visually-hidden">Open profile menu</span>
+        </summary>
+        <div class="profile-dropdown">
+          <div class="profile-dropdown-head">
+            <span class="profile-avatar profile-avatar-lg" aria-hidden="true">BJ</span>
+            <div class="profile-dropdown-identity">
+              <div class="profile-dropdown-name">Your account</div>
+              <div class="profile-dropdown-meta">Signed in to PocketPilot</div>
+            </div>
+          </div>
+          <a class="profile-dropdown-item" href="setup.html">Edit budget</a>
+          <a class="profile-dropdown-item" href="payment.html">Log a payment</a>
+          <a class="profile-dropdown-item" href="chat.html">Chat</a>
+          <div class="profile-dropdown-divider"></div>
+          <a class="profile-dropdown-item is-signout" href="login.html">Sign out</a>
+        </div>
+      </details>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <p class="page-eyebrow">Log a payment</p>
+      <h1 class="page-title">Paste your payment confirmation</h1>
+      <p class="page-lede">
+        Copy the confirmation text from your payment app and drop it in below.
+        PocketPilot will pull out the amount and update your allowance.
+      </p>
+
+      <div class="allowance-strip">
+        <div>
+          <div class="allowance-strip-label">Current allowance</div>
+          <div class="allowance-strip-value" id="strip-allowance">₹0/day</div>
+          <div class="allowance-strip-sub" id="strip-days">—</div>
+        </div>
+      </div>
+
+      <form class="card" id="payment-form" novalidate>
+        <div class="alert tone-error" id="payment-alert" role="alert"></div>
+
+        <div class="field">
+          <label class="field-label" for="payment-text">Payment confirmation</label>
+          <textarea
+            class="textarea-input"
+            id="payment-text"
+            name="paymentText"
+            placeholder="Paste your payment confirmation here...&#10;Example: Paid ₹400 to XYZ"
+            aria-describedby="payment-text-help"
+          ></textarea>
+          <p class="field-help" id="payment-text-help">Works with formats like ₹400, Rs. 400, or INR 400.</p>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Log payment</button>
+
+        <div class="result-panel" id="payment-result" aria-live="polite">
+          <p class="field-help" id="result-amount-logged" style="font-weight: 700; color: var(--color-ink);">₹0 logged</p>
+
+          <div class="before-after">
+            <div class="ba-block">
+              <div class="ba-label">Before</div>
+              <div class="ba-value before" id="ba-before-value">₹0/day</div>
+            </div>
+            <svg class="ba-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+            <div class="ba-block">
+              <div class="ba-label">After</div>
+              <div class="ba-value after" id="ba-after-value">₹0/day</div>
+            </div>
+          </div>
+
+          <div class="status-banner" id="payment-status">
+            <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" /><path d="M12 8v5M12 16h.01" />
+            </svg>
+            <span class="status-text">—</span>
+          </div>
+        </div>
+      </form>
+
+      <h2 class="section-heading">Recent activity</h2>
+      <div class="card" style="padding: 8px var(--space-6);">
+        <div class="txn-list" id="txn-list"></div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-secondary" href="setup.html">Edit budget</a>
+        <a class="btn btn-primary" href="chat.html">Chat with PocketPilot</a>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/PocketPilot_Engine.js"></script>
+  <script type="module" src="js/script.js"></script>
+</body>
+</html>
