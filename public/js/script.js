@@ -318,45 +318,187 @@ function renderChatHistory() {
 async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
+
   if (!text || !currentState) return;
+
   addMessageToChat('user', text);
-  chatHistory.push({role:'user', content:text});
+  chatHistory.push({ role: 'user', content: text });
+
   input.value = '';
   input.focus();
+
   const typingId = showTypingIndicator();
+
   try {
+    /*
+      STEP 1:
+      Try to find an amount in the CURRENT message only.
+
+      If the user says:
+        "can I spend 250 on lunch?"
+      -> amount = 250
+
+      If they say:
+        "idk I really want to"
+      -> amount = null
+
+      We do NOT force every message to become a spending question.
+    */
     let amount = null;
+
     try {
       const extraction = await callAI(
         'Extract the rupee amount the user is asking about spending. Reply with ONLY the number. If there is no amount, reply with exactly NONE.',
-        [{role:'user', content:text}]
+        [{ role: 'user', content: text }]
       );
+
       amount = E.parseExtractedAmount(extraction);
     } catch (err) {
       console.warn('AI extraction failed; using local parser:', err);
+
       amount = E.parseAmountFromText(text, true);
     }
 
-    const ctx = E.buildChatContext(currentState, amount === null ? undefined : amount, new Date());
+    /*
+      STEP 2:
+      Build the financial context.
+
+      If this message contains an amount, calculate its effect.
+
+      If it does not, use the current budget status without
+      inventing a new spending amount.
+    */
+    const ctx = E.buildChatContext(
+      currentState,
+      amount === null ? undefined : amount,
+      new Date()
+    );
+
+    /*
+      STEP 3:
+      Give Gemini BOTH:
+        - the financial facts from our engine
+        - the entire recent conversation
+
+      This is what makes follow-up messages actually conversational.
+    */
+    const systemPrompt = E.buildChatSystemPrompt(ctx);
+
+    /*
+      Tell Gemini explicitly that this is an ongoing conversation.
+      Previous messages may contain amounts that are still relevant.
+    */
+    const conversationPrompt =
+      systemPrompt +
+      `
+
+CONVERSATION RULES:
+- You are continuing an ongoing conversation with the user.
+- Use the previous messages to understand what the user means.
+- If the user's latest message is a follow-up, answer it in context rather than treating it as a brand-new question.
+- Do not repeat a previous answer word-for-word unless it genuinely answers the new message.
+- If the latest message does not contain a new spending amount, do not invent one.
+- You may refer to amounts already mentioned in the conversation when they are relevant.
+- Keep the tone natural, friendly, and conversational, like a helpful money buddy.
+- Do not turn every reply into a generic budget warning.
+`;
+
     let reply;
+
     try {
-      const systemPrompt = E.buildChatSystemPrompt(ctx);
-      reply = await callAI(systemPrompt, chatHistory);
+      reply = await callAI(conversationPrompt, chatHistory);
+
+      /*
+        STEP 4:
+        Keep the financial safety check.
+
+        We do NOT remove this because Gemini should not invent
+        financial calculations.
+      */
       const checked = E.validateAIReply(reply, ctx);
-      if (!checked.ok) reply = E.buildFallbackReply(ctx);
+
+      if (!checked.ok) {
+        console.warn('AI reply failed validation:', checked);
+
+        /*
+          Instead of immediately throwing away the conversational
+          reply, try one more time with a stricter instruction.
+        */
+        const retryPrompt =
+          conversationPrompt +
+          `
+
+IMPORTANT:
+Your previous answer contained a financial number that was not
+supported by the current financial facts.
+
+Answer the user's latest message again.
+
+If you do not need to mention a number, avoid mentioning one.
+If you mention a financial number, use only numbers explicitly
+provided in the financial facts or already established in the
+conversation.
+`;
+
+        const retryReply = await callAI(retryPrompt, chatHistory);
+        const retryChecked = E.validateAIReply(retryReply, ctx);
+
+        if (retryChecked.ok) {
+          reply = retryReply;
+        } else {
+          console.warn('Retry also failed validation:', retryChecked);
+
+          /*
+            Only now use the deterministic fallback.
+          */
+          reply = E.buildFallbackReply(ctx);
+        }
+      }
+
     } catch (err) {
       console.warn('AI reply failed; using deterministic fallback:', err);
+
       reply = E.buildFallbackReply(ctx);
     }
-    chatHistory.push({role:'assistant', content:reply});
+
+    /*
+      STEP 5:
+      Save the assistant's answer so the NEXT message knows
+      what PocketPilot said.
+    */
+    chatHistory.push({
+      role: 'assistant',
+      content: reply
+    });
+
     await saveState(currentState);
+
     removeTypingIndicator(typingId);
     addMessageToChat('assistant', reply);
+
   } catch (err) {
+    console.error('Chat error:', err);
+
     removeTypingIndicator(typingId);
-    const reply = E.buildFallbackReply(E.buildChatContext(currentState, E.parseAmountFromText(text, true) ?? undefined, new Date()));
-    chatHistory.push({role:'assistant', content:reply});
+
+    /*
+      Last-resort fallback.
+    */
+    const fallbackCtx = E.buildChatContext(
+      currentState,
+      E.parseAmountFromText(text, true) ?? undefined,
+      new Date()
+    );
+
+    const reply = E.buildFallbackReply(fallbackCtx);
+
+    chatHistory.push({
+      role: 'assistant',
+      content: reply
+    });
+
     await saveState(currentState);
+
     addMessageToChat('assistant', reply);
   }
 }
