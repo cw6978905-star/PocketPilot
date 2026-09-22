@@ -19,12 +19,39 @@ let currentUser = null;
 let currentState = null;
 let chatHistory = [];
 
+function getUserInitials(user) {
+  if (!user || !user.email) return '??';
+
+  const username = user.email.split('@')[0];
+
+  const parts = username
+    .replace(/[._-]+/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+  return username.slice(0, 2).toUpperCase();
+}
+
+function updateUserInitials(user) {
+  const initials = getUserInitials(user);
+
+  document.querySelectorAll('#profile-initials').forEach((element) => {
+    element.textContent = initials;
+  });
+}
+
 console.log("🔥 ABOUT TO CREATE READY PROMISE");
 const ready = new Promise((resolve, reject) => {
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     console.log("🔥 AUTH STATE CALLBACK FIRED", user);
     unsubscribe();
     currentUser = user;
+    updateUserInitials(user);
     if (!user && !isLogin) {
       location.replace('login.html');
       resolve(false);
