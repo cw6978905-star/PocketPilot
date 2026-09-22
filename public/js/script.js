@@ -40,7 +40,7 @@ function getUserInitials(user) {
 function updateUserInitials(user) {
   const initials = getUserInitials(user);
 
-  document.querySelectorAll('#profile-initials').forEach((element) => {
+  document.querySelectorAll('.profile-avatar').forEach((element) => {
     element.textContent = initials;
   });
 }
