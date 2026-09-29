@@ -1,4 +1,3 @@
-````markdown
 # 💸 PocketPilot
 
 ### Spend smarter. Go further.
@@ -73,8 +72,6 @@ Remaining Days
        ↓
 Daily Spending Allowance
 ````
-
----
 
 ### 2. 💳 Payment Impact Tracking
 
