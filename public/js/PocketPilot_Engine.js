@@ -339,7 +339,7 @@ function logPayment(state, amountInput, note = "", now = new Date(), spentOn = n
       newList.push(t);
     }
   }
-  newList.push({ amount, note: cleanNote, timestamp: spentOnD.getTime(), loggedAt: nowD.getTime(), type: "payment" });
+  newList.push({ amount, note: cleanNote, timestamp: spentOnD.getTime(), loggedAt: nowD.getTime(), type: "payment", category: opts.category || "Uncategorized" });
 
   const newState = { ...state, transactions: newList };
   const after = snapshot(newState, nowD);
@@ -466,6 +466,17 @@ function detectLoggingGap(state, now = new Date()) {
         ? null
         : `You haven't logged anything for ${n} day${n > 1 ? "s" : ""} (${describeDays(gapDays)}) — want to add what you remember, or should I estimate based on your usual spending?`,
   };
+}
+
+function getCategoryBreakdown(state) {
+  const breakdown = {};
+  txs(state).forEach(t => {
+    if (txType(t) === 'payment') {
+      const cat = t.category || 'Uncategorized';
+      breakdown[cat] = (breakdown[cat] || 0) + t.amount;
+    }
+  });
+  return Object.entries(breakdown).map(([name, total]) => ({ name, total })).sort((a, b) => b.total - a.total);
 }
 
 /** His average daily spend on days we actually know about (real payments or confirmed no-spend days). */
@@ -668,13 +679,14 @@ function collectAllowedNumbers(ctx) {
  * verdict: on_pace | over_pace | heavy (allowance cut by more than half) | cannot_afford | status_only
  * Also reports unlogged days and unconfirmed estimates so the AI can say numbers may be off.
  */
-function buildChatContext(state, amount, now = new Date()) {
+function buildChatContext(state, amount, now = new Date(), category = null) {
   const snap = snapshot(state, now);
   const gap = detectLoggingGap(state, now);
 
   const ctx = {
     hasAmount: false,
     verdict: "status_only",
+    category,
     spentToday: snap.spentToday,
     todayOriginalAllowance: snap.todayStart,
     currentAllowance: snap.allowance,
@@ -732,7 +744,12 @@ function buildChatSystemPrompt(ctx) {
   if (ctx.estimatedSpent > 0) facts.push(`- Includes ${f(ctx.estimatedSpent)} of estimated spending that is not confirmed`);
   if (ctx.hasAmount) {
     facts.push(
-      `- Amount they are asking about: ${f(ctx.amountAsked)}`,
+      `- Amount they are asking about: ${f(ctx.amountAsked)}`
+    );
+    if (ctx.category && ctx.category !== 'Other') {
+      facts.push(`- Inferred Category: ${ctx.category}`);
+    }
+    facts.push(
       `- Daily allowance if they spend it: ${f(ctx.projectedAllowance)} (drops by ${f(ctx.dropAmount)}${ctx.dropPercent !== null ? `, ${ctx.dropPercent}%` : ""})`,
       `- Money left after spending it: ${f(ctx.remainingFlexibleAfter)}`,
       `- Left of today's plan after spending it: ${f(ctx.leftTodayAfter)} (negative = over today's plan)`
@@ -1168,6 +1185,8 @@ const PocketPilotEngine = {
   reconcileBalance,
   getReconcilePrompt,
   getEstimatedSpent,
+  getAverageDailySpend,
+  getCategoryBreakdown,
   buildChatContext,
   buildChatSystemPrompt,
   buildFallbackReply,

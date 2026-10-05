@@ -5,12 +5,33 @@ export default async (req) => {
 
   const apiKey = process.env.GEMINI_API_KEY;
   const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
+  const firebaseApiKey = process.env.FIREBASE_API_KEY || 'AIzaSyBkxpAta0JXfjzJ2B3ogQyNg-74kpjxZ2E';
 
   if (!apiKey) {
     return Response.json(
       { error: 'Missing GEMINI_API_KEY.' },
       { status: 500 }
     );
+  }
+
+  const authHeader = req.headers.get('authorization') || '';
+  if (!authHeader.startsWith('Bearer ')) {
+    return Response.json({ error: 'Missing or invalid Authorization header.' }, { status: 401 });
+  }
+  const token = authHeader.split('Bearer ')[1];
+
+  try {
+    const verifyRes = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken: token })
+    });
+    
+    if (!verifyRes.ok) {
+      return Response.json({ error: 'Unauthorized: Invalid token.' }, { status: 401 });
+    }
+  } catch (err) {
+    return Response.json({ error: 'Unauthorized: Token verification failed.' }, { status: 401 });
   }
 
   let body;

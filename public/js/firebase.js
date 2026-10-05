@@ -13,6 +13,14 @@ import {
   doc,
   getDoc,
   setDoc,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  where,
+  limit
 } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
 // Replace these values with the Web app config from Firebase Console.
@@ -47,4 +55,13 @@ export {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  doc,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  where,
+  limit
 };

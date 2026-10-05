@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Log a payment — PocketPilot</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script>if(window.location.pathname.endsWith('payment.html')) window.location.replace('app.html?view=payment');</script>
 </head>
 <body>
   <div class="app-shell">
@@ -77,6 +78,19 @@
             aria-describedby="payment-text-help"
           ></textarea>
           <p class="field-help" id="payment-text-help">Works with formats like ₹400, Rs. 400, or INR 400.</p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="payment-category">Category</label>
+          <select class="form-control" id="payment-category" name="paymentCategory">
+            <option value="Food & Dining">Food & Dining</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Bills & Utilities">Bills & Utilities</option>
+            <option value="Health & Wellness">Health & Wellness</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         <button class="btn btn-primary btn-block" type="submit">Log payment</button>

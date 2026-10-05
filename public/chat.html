@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Chat — PocketPilot</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script>if(window.location.pathname.endsWith('chat.html')) window.location.replace('app.html?view=chat');</script>
 </head>
 <body>
   <div class="app-shell">
@@ -67,6 +68,13 @@
           </svg>
           <p>Ask PocketPilot whether you can afford something — try "Can I get dinner tonight for ₹400?"</p>
         </div>
+      </div>
+
+      <div class="chat-presets-container" style="display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none;">
+        <button class="chat-preset-btn" type="button" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--color-ink); padding: 8px 12px; border-radius: 16px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: background 0.2s;">How am I doing overall?</button>
+        <button class="chat-preset-btn" type="button" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--color-ink); padding: 8px 12px; border-radius: 16px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: background 0.2s;">Can I afford dinner for ₹400?</button>
+        <button class="chat-preset-btn" type="button" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--color-ink); padding: 8px 12px; border-radius: 16px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: background 0.2s;">If I spend ₹1000, what happens?</button>
+        <button class="chat-preset-btn" type="button" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--color-ink); padding: 8px 12px; border-radius: 16px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: background 0.2s;">How much can I spend today?</button>
       </div>
 
       <form class="chat-composer" id="chat-form">
